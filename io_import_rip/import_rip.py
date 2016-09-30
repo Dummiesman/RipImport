@@ -178,8 +178,6 @@ def read_rip_file(file, object_name, tex_path):
       
       mtex = mtl.texture_slots.add()
       mtex.texture = tex
-    else:
-      print("this might be null (" + texture_file + ") or it doesn't exist")
       
     ob.data.materials.append(mtl)
     

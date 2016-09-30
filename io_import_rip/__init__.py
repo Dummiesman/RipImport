@@ -42,6 +42,46 @@ class ImportRIP(bpy.types.Operator, ImportHelper):
     filename_ext = ".rip"
     filter_glob = StringProperty(default="*.rip", options={'HIDDEN'})
 
+    semantic_setting = bpy.props.EnumProperty(items= (('AUTO', 'Auto', 'Automatically detect vertex layout'),      
+                                                      ('MANUAL', 'Manual', 'Enter vertex layout details manually')),      
+                                                      name = "Vertex Layout") 
+
+    
+    vxlayout = bpy.props.IntProperty(name="VX", default=0)
+    vylayout = bpy.props.IntProperty(name="VY", default=1)
+    vzlayout = bpy.props.IntProperty(name="VZ", default=2)
+    
+    nxlayout = bpy.props.IntProperty(name="NX", default=3)
+    nylayout = bpy.props.IntProperty(name="NY", default=4)
+    nzlayout = bpy.props.IntProperty(name="NZ", default=5)
+    
+    tulayout = bpy.props.IntProperty(name="TU", default=6)
+    tvlayout = bpy.props.IntProperty(name="TV", default=7)
+    
+    scale = bpy.props.FloatProperty(name="Scale", default=1.0)
+    
+    def draw(self, context):
+        layout = self.layout
+        sub = layout.row()
+        sub.prop(self, "semantic_setting")
+        
+        if self.semantic_setting == "MANUAL":
+          sub = layout.row()
+          sub.prop(self, "vxlayout")
+          sub.prop(self, "nxlayout")
+          sub.prop(self, "tulayout")
+          sub = layout.row()
+          sub.prop(self, "vylayout")
+          sub.prop(self, "nylayout")
+          sub.prop(self, "tvlayout")
+          sub = layout.row()
+          sub.prop(self, "vzlayout")
+          sub.prop(self, "nzlayout")
+          sub.label("")
+          
+        sub = layout.row()
+        sub.prop(self, "scale")
+        
     def execute(self, context):
         from . import import_rip
         keywords = self.as_keywords(ignore=("axis_forward",

@@ -11,6 +11,24 @@ import bpy, bmesh, mathutils
 import time, struct, os
 
 ######################################################
+# GLOBAL VARIABLES
+######################################################
+semantic_autodetect = True
+
+posx_idx = 0
+posy_idx = 0
+posz_idx = 0
+
+normx_idx = 0
+normy_idx = 0
+normz_idx = 0
+
+u_idx = 0
+v_idx = 0
+
+g_scale = 1.0
+
+######################################################
 # IMPORT MAIN FILES
 ######################################################
 def read_string(file):
@@ -41,18 +59,6 @@ def read_rip_file(file, object_name, tex_path):
     scn.objects.active = ob
     
     bpy.ops.object.mode_set(mode='EDIT', toggle=False)
-    
-    # semantic index data
-    posx_idx = 0
-    posy_idx = 0
-    posz_idx = 0
-    
-    normx_idx = 0
-    normy_idx = 0
-    normz_idx = 0
-    
-    u_idx = 0
-    v_idx = 0
     
     # parsing variables
     vertex_attrib_types_array = []
@@ -86,20 +92,24 @@ def read_rip_file(file, object_name, tex_path):
         vertex_attrib_types_array.append(type_element)
       
       # detect semantic
-      if semantic == "POSITION" and temp_pos_index == 0:
-        posx_idx = offset / 4
-        posy_idx = posx_idx + 1
-        posz_idx = posx_idx + 2
-        temp_pos_index += 1
-      elif semantic == "NORMAL" and temp_normal_index == 0:
-        normx_idx = offset / 4
-        normy_idx = normx_idx + 1
-        normz_idx = normx_idx + 2
-        temp_normal_index += 1
-      elif semantic == "TEXCOORD" and temp_texcoord_index == 0:
-        u_idx = offset / 4
-        v_idx = u_idx + 1
-        temp_texcoord_index += 1
+      if semantic_autodetect:
+        if semantic == "POSITION" and temp_pos_index == 0:
+          global posx_idx, posy_idx, posz_idx
+          posx_idx = offset / 4
+          posy_idx = posx_idx + 1
+          posz_idx = posx_idx + 2
+          temp_pos_index += 1
+        elif semantic == "NORMAL" and temp_normal_index == 0:
+          global normx_idx, normy_idx, normz_idx
+          normx_idx = offset / 4
+          normy_idx = normx_idx + 1
+          normz_idx = normx_idx + 2
+          temp_normal_index += 1
+        elif semantic == "TEXCOORD" and temp_texcoord_index == 0:
+          global u_idx, v_idx
+          u_idx = offset / 4
+          v_idx = u_idx + 1
+          temp_texcoord_index += 1
         
     # read in texture file list
     for x in range(textures_count):
@@ -139,9 +149,9 @@ def read_rip_file(file, object_name, tex_path):
         else:
           temp_data = struct.unpack('L', file.read(4))[0]
           
-        if y == posx_idx: vx = float(temp_data) 
-        if y == posy_idx: vy = float(temp_data)
-        if y == posz_idx: vz = float(temp_data)
+        if y == posx_idx: vx = float(temp_data) * g_scale
+        if y == posy_idx: vy = float(temp_data) * g_scale
+        if y == posz_idx: vz = float(temp_data) * g_scale
         
         if y == normx_idx: nx = float(temp_data)
         if y == normy_idx: ny = float(temp_data)
@@ -218,8 +228,36 @@ def load_rip(filepath,
 def load(operator,
          context,
          filepath="",
+         semantic_setting = "AUTO",
+         vxlayout = 0,
+         vylayout = 1,
+         vzlayout = 2,
+         nxlayout = 3,
+         nylayout = 4,
+         nzlayout = 5,
+         tulayout = 6,
+         tvlayout = 7,
+         scale = 1.0,
          ):
-
+    
+    # setup global variables
+    global semantic_autodetect, g_scale
+    semantic_autodetect = True if semantic_setting == "AUTO" else False
+    g_scale = scale
+    
+    if semantic_autodetect == False:
+      global posx_idx, posy_idx, posz_idx, normx_idx, normy_idx, normz_idx, u_idx, v_idx
+      posx_idx = vxlayout
+      posy_idx = vylayout
+      posz_idx = vzlayout
+      normx_idx = nxlayout
+      normy_idx = nylayout
+      normz_idx = nzlayout
+      u_idx = tulayout
+      v_idx  = tvlayout
+      
+    
+    # load file
     load_rip(filepath,
              context,
              )

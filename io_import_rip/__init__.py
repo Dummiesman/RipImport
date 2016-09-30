@@ -12,7 +12,7 @@ bl_info = {
     "author": "Dummiesman",
     "version": (0, 0, 1),
     "blender": (2, 77, 0),
-    "location": "File > Impor",
+    "location": "File > Import",
     "description": "Import RIP files",
     "warning": "",
     "wiki_url": "http://wiki.blender.org/index.php/Extensions:2.7/Py/"

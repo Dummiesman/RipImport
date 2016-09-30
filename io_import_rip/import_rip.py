@@ -98,17 +98,23 @@ def read_rip_file(file, object_name, tex_path):
           posx_idx = offset / 4
           posy_idx = posx_idx + 1
           posz_idx = posx_idx + 2
+          
           temp_pos_index += 1
+          print("Detected POSITION layout [" + str(posx_idx) + ", " + str(posy_idx) + ", " + str(posz_idx) + "]")
         elif semantic == "NORMAL" and temp_normal_index == 0:
           global normx_idx, normy_idx, normz_idx
           normx_idx = offset / 4
           normy_idx = normx_idx + 1
           normz_idx = normx_idx + 2
+          
           temp_normal_index += 1
+          print("Detected NORMAL layout [" + str(normx_idx) + ", " + str(normy_idx) + ", " + str(normz_idx) + "]")
         elif semantic == "TEXCOORD" and temp_texcoord_index == 0:
           global u_idx, v_idx
           u_idx = offset / 4
           v_idx = u_idx + 1
+          
+          print("Detected UV layout [" + str(u_idx) + ", " + str(v_idx) + "]")
           temp_texcoord_index += 1
         
     # read in texture file list

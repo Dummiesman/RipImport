@@ -167,7 +167,9 @@ def read_rip_file(file, object_name, tex_path):
     
     # setup our material
     texture_file = None if len(texture_files) == 0 else texture_files[0]
-    texture_path = os.path.join(tex_path, texture_file)
+    
+    if texture_file is not None:
+      texture_path = os.path.join(tex_path, texture_file)
     
     mtl = bpy.data.materials.new(name=object_name)
     if texture_file is not None and os.path.isfile(texture_path):

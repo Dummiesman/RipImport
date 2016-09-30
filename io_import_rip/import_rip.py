@@ -99,6 +99,7 @@ def read_rip_file(file, object_name, tex_path):
       elif semantic == "TEXCOORD" and temp_texcoord_index == 0:
         u_idx = offset / 4
         v_idx = u_idx + 1
+        temp_texcoord_index += 1
         
     # read in texture file list
     for x in range(textures_count):

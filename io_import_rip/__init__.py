@@ -60,6 +60,7 @@ class ImportRIP(bpy.types.Operator, ImportHelper):
     
     scale = bpy.props.FloatProperty(name="Scale", default=1.0)
     
+    reusemats = BoolProperty(name="Re-use materials", description="Re-use existing materials from other RIP files (especially useful when loading an entire folder)", default=True)
     importall = BoolProperty(name="Import entire folder", description="Import all meshes in this folder", default=False)
     
     def draw(self, context):
@@ -84,7 +85,8 @@ class ImportRIP(bpy.types.Operator, ImportHelper):
         sub = layout.row()
         sub.prop(self, "scale")
         
-        layout.separator()
+        sub = layout.row()
+        sub.prop(self, "reusemats")
         sub = layout.row()
         sub.prop(self, "importall")
         

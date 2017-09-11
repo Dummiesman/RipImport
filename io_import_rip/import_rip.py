@@ -244,6 +244,7 @@ def load(operator,
          tulayout = 6,
          tvlayout = 7,
          scale = 1.0,
+         importall = False,
          ):
     
     # setup global variables
@@ -263,9 +264,15 @@ def load(operator,
       v_idx  = tvlayout
       
     
-    # load file
-    load_rip(filepath,
-             context,
-             )
+    # load file(s)
+    if importall:
+      ripdir = os.path.dirname(filepath)
+      for file in os.listdir(ripdir):
+        if file.lower().endswith(".rip"):
+          load_rip(os.path.join(ripdir, file), context)
+    else:
+      load_rip(filepath,
+              context,
+              )
 
     return {'FINISHED'}

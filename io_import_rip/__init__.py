@@ -9,9 +9,9 @@
 
 bl_info = {
     "name": "NinjaRipper RIP Format",
-    "author": "Dummiesman",
-    "version": (0, 0, 1),
-    "blender": (2, 77, 0),
+    "author": "Dummiesman, 2.8 compatibility by xpawelsky",
+    "version": (0, 0, 2),
+    "blender": (2, 80, 0),
     "location": "File > Import",
     "description": "Import RIP files",
     "warning": "",
@@ -38,7 +38,7 @@ class ImportRIP(bpy.types.Operator, ImportHelper):
     bl_idname = "import_scene.rip"
     bl_label = 'Import NinjaRipper (*.rip)'
     bl_options = {'UNDO'}
-
+		
     filename_ext = ".rip"
     filter_glob = StringProperty(default="*.rip", options={'HIDDEN'})
 
@@ -105,17 +105,30 @@ class ImportRIP(bpy.types.Operator, ImportHelper):
 def menu_func_import(self, context):
     self.layout.operator(ImportRIP.bl_idname, text="NinjaRipper (.rip)")
 
+#2.8 Fix
 
 def register():
-    bpy.utils.register_module(__name__)
-
-    bpy.types.INFO_MT_file_import.append(menu_func_import)
-
-
+	from bpy.utils import register_class
+	register_class(ImportRIP)
+	
+	bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
+		
 def unregister():
-    bpy.utils.unregister_module(__name__)
+	from bpy.utils import unregister_class
+	unregister_class(ImportRIP)
+	
+	bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
 
-    bpy.types.INFO_MT_file_import.remove(menu_func_import)
+#def register():
+#    bpy.utils.register_module(__name__)
+#
+#    bpy.types.INFO_MT_file_import.append(menu_func_import)
+
+
+#def unregister():
+#    bpy.utils.unregister_module(__name__)
+#
+#    bpy.types.INFO_MT_file_import.remove(menu_func_import)
 
 if __name__ == "__main__":
     register()

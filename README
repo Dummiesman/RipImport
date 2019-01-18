@@ -1,7 +1,0 @@
-Fixed original addon to make it work with Blender 2.8
-
-Installation:
-Edit -> Preferences... -> Add-ons -> Install... -> Select downloaded .zip -> Enable "Import: NinjaRipper RIP Format"
-
-Usage:
-File -> Import... -> NinjaRipper (.rip)

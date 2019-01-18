@@ -1,5 +1,7 @@
-# Blender (NinjaRipper) RIP Add-On
-Version 0.2
-January 19th 2019
+Fixed original addon to make it work with Blender 2.8
 
-** Ported by Dummiesman from the vanilla NinjaRipper MaxScript, updated to 2.8 by xpawelsky **
+Installation:
+Edit -> Preferences... -> Add-ons -> Install... -> Select downloaded .zip -> Enable "Import: NinjaRipper RIP Format"
+
+Usage:
+File -> Import... -> NinjaRipper (.rip)

@@ -1,4 +1,4 @@
-# Blender 2.8 RIP (NinjaRipper) import Add-On
+# Blender 2.8 .rip (NinjaRipper) import Add-On
 
 Initially created by Dummiesman, updated by me to make it work with Blender 2.8
 

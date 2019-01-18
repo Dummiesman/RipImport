@@ -8,10 +8,14 @@ Initially created by Dummiesman, updated by me to make it work with Blender 2.8 
 https://github.com/xpawelsky/RipImport/releases/
 
 ## Installation:
+```
 Edit -> Preferences... -> Add-ons -> Install... -> Select downloaded .zip -> Enable "Import: NinjaRipper RIP Format"
+```
 
 ## Usage:
+```
 File -> Import... -> NinjaRipper (.rip)
+```
 
 
 

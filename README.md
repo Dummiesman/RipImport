@@ -2,6 +2,8 @@
 
 Initially created by Dummiesman, updated by me to make it work with Blender 2.8 *(tested with 19-01-2019 8ba86020cc50)*
 
+IT ONLY IMPORTS DIFFUSE TEXTURE, ADDITIONAL TEXTURES YOU HAVE TO ADD MANUALLY
+
 ![Car](https://i.imgur.com/awlGf0X.png)
 
 ## Download:

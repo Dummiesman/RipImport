@@ -59,7 +59,7 @@ def read_rip_file(file, object_name, tex_path):
       raise Exception(object_name + " contains an invalid rip version.")
       
     # add a mesh and link it to the scene
-    scn = bpy.context.scene
+#   scn = bpy.context.scene
     me = bpy.data.meshes.new(object_name + "Mesh")
     ob = bpy.data.objects.new(object_name, me)
 
@@ -67,9 +67,9 @@ def read_rip_file(file, object_name, tex_path):
     bm.from_mesh(me)
     uv_layer = bm.loops.layers.uv.new()
     
-    scn.objects.link(ob)
-    scn.objects.active = ob
-    
+#   scn.objects.link(ob)
+    bpy.context.collection.objects.link(ob)
+    bpy.context.view_layer.objects.active = ob
     bpy.ops.object.mode_set(mode='EDIT', toggle=False)
     
     # parsing variables
@@ -183,17 +183,18 @@ def read_rip_file(file, object_name, tex_path):
       mtl = bpy.data.materials[material_name]
     elif texture_file is not None:
       mtl = bpy.data.materials.new(name=material_name)
+	  
+      mtl.use_nodes = True
+      bsdf = mtl.node_tree.nodes["Principled BSDF"]
       
       # load texture onto the material
       if texture_file in bpy.data.textures:
         mtex = mtl.texture_slots.add()
         mtex.texture = bpy.data.textures[texture_file]
       elif os.path.isfile(texture_path):
-        tex = bpy.data.textures.new(texture_file, type='IMAGE')
+        tex = mtl.node_tree.nodes.new('ShaderNodeTexImage')
         tex.image = bpy.data.images.load(texture_path)
-        
-        mtex = mtl.texture_slots.add()
-        mtex.texture = tex
+        mtl.node_tree.links.new(bsdf.inputs['Base Color'], tex.outputs['Color'])
     
     if mtl is not None:
       ob.data.materials.append(mtl)
